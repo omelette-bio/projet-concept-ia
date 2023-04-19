@@ -33,8 +33,6 @@ def xml_to_pdf(xml_file):
                   transitions[debut] = []
                transitions[debut].append(fin.strip())
    
-   print(transitions)
-   
    try :
       dot = os.open(dot_file, os.O_WRONLY | os.O_CREAT)
    except:
