@@ -53,7 +53,5 @@ node[shape=circle, style=filled, fillcolor=white, color=black, fontcolor=black, 
 43 -> 03
 43 -> 40
 43 -> 53
-40 -> 00
-40 -> 43
 40 -> 40
 }

@@ -76,7 +76,8 @@ def dot_to_xml(dot_file):
             transitions[dot_transitions[i-1]] = []
          transitions[dot_transitions[i-1]].append(dot_transitions[i+1])
 
-   print(transitions)
+   # now we have the transitions in a dictionary, we can create the xml file
+   
    
 
 
