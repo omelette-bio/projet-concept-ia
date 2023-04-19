@@ -3,6 +3,7 @@ import argparse, os
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="the file to parse")
+parser.add_argument("--save", help="select the file to save to",default="default", type=str)
 args = parser.parse_args()
 
 
@@ -13,9 +14,14 @@ def xml_to_pdf(xml_file):
    transitions = {}
    
    file_name = xml_file[:-4]
-   dot_file = file_name + ".dot"
+   if args.save == "default":
+      dot_file = file_name + ".dot"
+      
+   else:
+      dot_file = args.save + ".dot"
+   
    pdf_file = file_name + ".pdf"
-
+      
    for i in root:
       for j in i:
          if j.tag == "valmatrix":
@@ -57,6 +63,15 @@ def xml_to_pdf(xml_file):
    if os.fork() == 0:
       os.execvp("open", ["open", pdf_file])
 
+def seperate_number(number):
+   number_str = ""
+   for i in range(len(number)):
+      number_str += number[i]
+      if i < len(number)-1:
+         number_str += " "
+   return number_str
+
+
 def dot_to_xml(dot_file):
    try:
       dot = os.open(dot_file, os.O_RDONLY)
@@ -64,7 +79,11 @@ def dot_to_xml(dot_file):
       print("The file does not exists")
       return
 
-   xml_file = dot_file[:-4] + ".xml"
+   if args.save == "default":
+      xml_file = dot_file[:-4] + ".xml"
+   else:
+      xml_file = args.save + ".xml"
+   
    # reading the dot file to get the transitions
    transitions = {}
    # splitting the file into a list of words with the help of the spaces and the new lines
@@ -77,8 +96,20 @@ def dot_to_xml(dot_file):
          transitions[dot_transitions[i-1]].append(dot_transitions[i+1])
 
    # now we have the transitions in a dictionary, we can create the xml file
+   xml = os.open(xml_file, os.O_WRONLY | os.O_CREAT)
+   os.write(xml, bytes("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 'utf-8'))
+   os.write(xml, bytes("<instance format=\"Talos\">\n", 'utf-8'))
+   os.write(xml, bytes("<values>\n", 'utf-8'))
+   os.write(xml, bytes("<valmatrix>\n", 'utf-8'))
+   for i in transitions:
+      # seperating the number in i with a space
+      for j in transitions[i]:
+         os.write(xml, bytes("<data>" + seperate_number(i) + " " + seperate_number(j) + "</data>\n", 'utf-8'))
+   os.write(xml, bytes("</valmatrix>\n", 'utf-8'))
+   os.write(xml, bytes("</values>\n", 'utf-8'))
+   os.write(xml, bytes("</instance>\n", 'utf-8'))
    
-   
+   os.close(xml)
 
 
    
