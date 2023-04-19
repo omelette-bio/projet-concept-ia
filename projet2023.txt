@@ -1,0 +1,24 @@
+Projet Resolution de problèmes à base de graphes d'états
+Cours: Concepts d'IA
+
+Ce projet se divise en 3 parties
+1) Il s'agit d'utiliser le programme StateGraph fourni. Pour ce faire on décrit le problème sous la forme d'un fichier structuré tel qu'expliqué en cours. On décrit les variables généraiques représentant un état, les variables de l'état initial etc elles de l'état final. Puis on définit la table de transition entre deux états, autrement dit les combinaisons de valeurs des variables du premier état et celles du des valeurs des variables du second état qui sont compatibles entre elles.
+Pour commencer il faut compléter le fichier LoupChevreSaladeEtudiant.xml qui est fourni. Puis il faut définir un fichier pour le problème, vu en cours, des seaux à combiner pour obtenir 4 litre du film "Die Hard"
+Ces deux fichiers sont à rendre avec le projet. Un troisième exemple sera donné ultérieurement et devra être aussi rendu avec le projet
+2) Il faut définir un lien entre la table de transitions et le graphe des transitions. Précisément, il faut écrire un programme qui permet de créer une table de transition à partir d'un graphe au format DOT et un graphe au format DOT à partir d'une table de transitions.
+3) Il faut imaginer une interface qui permettra de définir comment on pourrait engendrer un table de transition plus facilement. Par exemple à l'aide de la définition d'une fonction de validation des états et d'un itérateur sur les voisins d'un état. Cet itérateur correspondant bien souvent aux règles de définition des problèmes
+
+
+Le rendu de projet doit contenir:
+- les fichiers xml
+- le programme établissant les liaisons DOT -> xml et xml -> DOT pour les transitions
+- la structure d'une interface (au sens informatique) et eventuellement un code source
+- un rapport explicatif
+
+Les fichiers doivent etre regroupés dans un répertoire au nom de l'étudiant, puis zipper. 
+En aucun cas le zip ne doit contenir de fichiers executables, ni de jar, sinon il sera rejeté par les mailers
+
+Le zip doit etre envoyé à jcregin@gmail.com AVANT le 15 Mai 2023
+Le titre du message doit etre simple:
+ConceptsIA suivi du nom de l'étudiant
+
