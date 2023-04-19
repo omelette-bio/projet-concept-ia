@@ -52,7 +52,7 @@ def xml_to_pdf(xml_file):
    os.wait()
    
    # once the pdf file is created, we delete the dot file
-   os.remove(dot_file)
+   # os.remove(dot_file)
    
    if os.fork() == 0:
       os.execvp("open", ["open", pdf_file])
@@ -75,7 +75,8 @@ def dot_to_xml(dot_file):
          if dot_transitions[i-1] not in transitions:
             transitions[dot_transitions[i-1]] = []
          transitions[dot_transitions[i-1]].append(dot_transitions[i+1])
-   
+
+   print(transitions)
    
 
 
