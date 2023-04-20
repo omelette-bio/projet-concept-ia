@@ -4,6 +4,7 @@ import argparse, os
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="the file to parse")
 parser.add_argument("--save", help="select the file to save to",default="default", type=str)
+parser.add_argument("--show", help="show the pdf file", action="store_true")
 args = parser.parse_args()
 
 
@@ -42,7 +43,7 @@ def xml_to_pdf(xml_file):
    os.write(dot,bytes("digraph {\n", 'utf-8'))
    os.write(dot, bytes("node[shape=circle, style=filled, fillcolor=white, color=black, fontcolor=black, fontsize=12];\n", 'utf-8'))
 
-   #creating the nodes with the help of the transitions dictionary
+   # crée le graphe à partir du dictionnaire de transitions
    for i in transitions:
       for j in transitions[i]:
          os.write(dot, bytes(i + " -> " + j + "\n", 'utf-8'))
@@ -51,18 +52,17 @@ def xml_to_pdf(xml_file):
 
    os.close(dot)
 
-   # creating the pdf file
+   # crée le pdf à partir du dot
    if os.fork() == 0:
       os.execvp("dot", ["dot", "-Tpdf", dot_file, "-o", pdf_file])
 
    os.wait()
-   
-   # once the pdf file is created, we delete the dot file
-   # os.remove(dot_file)
-   
-   if os.fork() == 0:
+
+   # ouvre le pdf   
+   if os.fork() == 0 and args.show:
       os.execvp("open", ["open", pdf_file])
 
+# fonction pour séparer les nombres avec des espaces
 def seperate_number(number):
    number_str = ""
    for i in range(len(number)):
