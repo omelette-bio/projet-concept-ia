@@ -6,7 +6,7 @@ args = parser.parse_args()
 
 # first, we create a folder to store the solutions
 
-folder_name = args.file[:-4] + "_solutions"
+folder_name = os.path.basename(args.file[:-4]) + "_solutions"
 os.makedirs(folder_name, exist_ok=True)
 
 # file that takes a xml file, check the solutions with the file talosExamples... .jar and create multiple dot files with the solutions
@@ -19,6 +19,7 @@ solutions = os.open(folder_name+"/solutions.txt", os.O_WRONLY | os.O_CREAT)
 # the command is : java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver 0 -file xml_file
 
 result = os.popen("java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver 0 -file " + args.file).read()
+print("Solutions ready")
 
 os.write(solutions, bytes(result, 'utf-8'))
 os.close(solutions)
@@ -38,6 +39,8 @@ for line in s_read:
       s_list.append(line.strip())
 
 s_read.close()
+
+os.remove(folder_name+"/solutions.txt")
 
 # modify the s_list to create a list of lists with the nodes
 
@@ -81,6 +84,7 @@ with open(args.file[:-4] + ".dot", "r") as dot:
 
 # now we read the dot file and for each transition in s_list_final, we add [color=red] to the transitions
 
+print("Creating the solutions dot files...")
 for i in range(len(s_list_final)):
    dot_temp = dot_file
    for j in range(len(s_list_final[i])):
@@ -89,7 +93,12 @@ for i in range(len(s_list_final)):
    with open(folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".dot", "w") as dot:
       dot.write(dot_temp)
 
+print("Done")
 # now we create the pdf files with the dot files
 
+print("Creating the solutions png files...")
 for i in range(len(s_list_final)):
-   os.system("dot -Tpng " + folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".dot -o " + folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".png")
+   os.system("dot -Tpng " + folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions" + str(i) + ".dot -o " + folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".png")
+   # then we delete the dot files
+   os.remove(folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions" + str(i) + ".dot")
+print("Done")

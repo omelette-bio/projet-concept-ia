@@ -6,3 +6,4 @@ solutions.txt
 __pycache__
 *.dot
 *.png
+*_solutions
