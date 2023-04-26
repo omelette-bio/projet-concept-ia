@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<instance format="Talos">
+    <values>
+        <valmatrix id="transitions">
+            <data> 12 0 0 4 8 0 </data>
+            <data> 12 0 0 7 0 5 </data>
+
+            <data> 4 8 0 4 3 5 </data>
+            <data> 4 8 0 0 8 4 </data>
+            <data> 4 8 0 12 0 0 </data>
+            <data> 4 8 0 5 7 0 </data>
+            
+            
+            <data> 7 0 5 12 0 0 </data>
+            <data> 7 0 5 7 5 0 </data>
+            <data> 7 0 5 0 7 5 </data>
+            <data> 7 0 5 9 0 3 </data>
+            
+
+            <data> 1 8 3 1 6 5 </data>
+            <data> 1 8 3 0 8 4 </data>
+            <data> 1 8 3 4 8 0 </data>
+
+            <data> 1 6 5 6 6 0 </data>
+            <data> 6 6 0 6 6 0 </data>
+        </valmatrix>
+    </values>
+
+    <variables>
+        <var id="iCd">0</var>
+        <var id="iCh">0</var>
+        <var id="iCc">0</var>
+        <var id="fCd">6</var>
+        <var id="fCh">6</var>
+        <var id="fCc">0</var>
+
+        <var id="Cd" type="int extensional">0 1 2 3 4 5 6 7 8 9 10 11 12</var>
+        <var id="Ch" type="int extensional">0 1 2 3 4 5 6 7 8</var>
+        <var id="Cc" type="int extensional">0 1 2 3 4 5</var>
+    </variables>
+
+    <variables>
+        <vararray id="state">Cd Ch Cc</vararray>
+        <vararray id="initial">iCd iCh iCc</vararray>
+        <vararray id="final">fCd fCh fCc</vararray>
+    </variables>
+</instance>
