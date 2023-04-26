@@ -9,7 +9,7 @@ args = parser.parse_args()
 folder_name = os.path.basename(args.file[:-4]) + "_solutions"
 os.makedirs(folder_name, exist_ok=True)
 
-# file that takes a xml file, check the solutions with the file talosExamples... .jar and create multiple dot files with the solutions
+# program that takes a xml file, check the solutions with the file talosExamples... .jar and create multiple dot files with the solutions
 
 # first step: create a text file to get the results of the jar file
 
