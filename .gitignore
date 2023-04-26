@@ -5,3 +5,4 @@ tmp
 solutions.txt
 __pycache__
 *.dot
+*.png

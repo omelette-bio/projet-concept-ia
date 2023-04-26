@@ -4,11 +4,16 @@ parser = argparse.ArgumentParser()
 parser.add_argument("file", help="the file to create the solutions")
 args = parser.parse_args()
 
+# first, we create a folder to store the solutions
+
+folder_name = args.file[:-4] + "_solutions"
+os.makedirs(folder_name, exist_ok=True)
+
 # file that takes a xml file, check the solutions with the file talosExamples... .jar and create multiple dot files with the solutions
 
 # first step: create a text file to get the results of the jar file
 
-solutions = os.open("solutions.txt", os.O_WRONLY | os.O_CREAT)
+solutions = os.open(folder_name+"/solutions.txt", os.O_WRONLY | os.O_CREAT)
 
 # second step: call the jar file with the xml file and write the results in the text file
 # the command is : java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver 0 -file xml_file
@@ -22,7 +27,7 @@ os.close(solutions)
 # read the text file and search the line Number of solutions: x (x being the number of solutions)
 # store all the solutions in a list
 
-s_read = open("solutions.txt", "r")
+s_read = open(folder_name+"/solutions.txt", "r")
 s_list = []
 read_solutions = False
 
@@ -34,7 +39,7 @@ for line in s_read:
 
 s_read.close()
 
-# modify the s_list to create a list of lists with the nodes, nodes are seperated by ( and )
+# modify the s_list to create a list of lists with the nodes
 
 numbers = "0123456789"
 
@@ -53,7 +58,7 @@ for i in range(len(s_list)):
          solution.append(node)
    s_list_mod.append(solution)
 
-
+# now we have a list of lists with the nodes, we create a list of lists with the transitions
 
 s_list_final = []
 for i in range(len(s_list_mod)):
@@ -81,10 +86,10 @@ for i in range(len(s_list_final)):
    for j in range(len(s_list_final[i])):
       if s_list_final[i][j] in dot_file:
          dot_temp = dot_temp.replace(s_list_final[i][j], s_list_final[i][j] + " [color=red]")
-   with open(args.file[:-4] + "_solutions"+str(i)+".dot", "w") as dot:
+   with open(folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".dot", "w") as dot:
       dot.write(dot_temp)
 
 # now we create the pdf files with the dot files
 
 for i in range(len(s_list_final)):
-   os.system("dot -Tpdf " + args.file[:-4] + "_solutions"+str(i)+".dot -o " + args.file[:-4] + "_solutions"+str(i)+".pdf")
+   os.system("dot -Tpng " + folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".dot -o " + folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".png")
