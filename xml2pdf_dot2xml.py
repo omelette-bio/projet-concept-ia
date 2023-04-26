@@ -2,9 +2,10 @@ import xml.etree.ElementTree as ET
 import argparse, os
 
 parser = argparse.ArgumentParser()
-parser.add_argument("file", help="the file to parse")
 parser.add_argument("--save", help="select the file to save to",default="default", type=str)
+parser.add_argument("--create", help="create the pdf file", action="store_true")
 parser.add_argument("--show", help="show the pdf file", action="store_true")
+parser.add_argument("file", help="the file to parse")
 args = parser.parse_args()
 
 
@@ -53,15 +54,20 @@ def xml_to_pdf(xml_file):
    os.close(dot)
 
    # crée le pdf à partir du dot
-   if os.fork() == 0:
-      os.execvp("dot", ["dot", "-Tpdf", dot_file, "-o", pdf_file])
+   if args.create:
+      if os.fork() == 0:
+         os.execvp("dot", ["dot", "-Tpdf", dot_file, "-o", pdf_file])
 
-   os.wait()
+      os.wait()
 
-   # ouvre le pdf   
-   if os.fork() == 0 and args.show:
-      os.execvp("open", ["open", pdf_file])
+   # ouvre le pdf  
+   if args.show and args.create:
+      if os.fork() == 0:
+         os.execvp("open", ["open", pdf_file])
 
+   elif args.show and not args.create:
+      print("You need to create the pdf file to show it")
+   
 # fonction pour séparer les nombres avec des espaces
 def seperate_number(number):
    number_str = ""
