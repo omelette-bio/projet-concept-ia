@@ -2,3 +2,5 @@
 talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar
 backups
 tmp
+solutions.txt
+__pycache__
