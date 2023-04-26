@@ -67,7 +67,11 @@ def xml_to_pdf(xml_file):
 
    elif args.show and not args.create:
       print("You need to create the pdf file to show it")
-   
+
+
+
+
+
 # fonction pour séparer les nombres avec des espaces
 def seperate_number(number):
    number_str = ""
