@@ -1,4 +1,6 @@
-import xml2pdf_dot2xml, os, sys, argparse
+#! /usr/bin/env python3
+
+import xml2pdf_dot2xml, os, argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="the file to create the solutions")
