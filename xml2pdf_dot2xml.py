@@ -3,12 +3,6 @@
 import xml.etree.ElementTree as ET
 import argparse, os
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--save", help="select the file to save to",default="default", type=str)
-parser.add_argument("--create", help="create the pdf file", action="store_true")
-parser.add_argument("--show", help="show the pdf file", action="store_true")
-parser.add_argument("file", help="the file to parse")
-args = parser.parse_args()
 
 
 
@@ -18,11 +12,15 @@ def xml_to_pdf(xml_file):
    transitions = {}
    
    file_name = xml_file[:-4]
-   if args.save == "default":
-      dot_file = file_name + ".dot"
+   if __name__ == "__main__":
+      if args.save == "default":
+         dot_file = file_name + ".dot"
       
+      else:
+         dot_file = args.save + ".dot"
+   
    else:
-      dot_file = args.save + ".dot"
+      dot_file = file_name + ".dot"
    
    pdf_file = file_name + ".pdf"
       
@@ -56,19 +54,20 @@ def xml_to_pdf(xml_file):
    os.close(dot)
 
    # crée le pdf à partir du dot
-   if args.create:
-      if os.fork() == 0:
-         os.execvp("dot", ["dot", "-Tpdf", dot_file, "-o", pdf_file])
+   if __name__ == "__main__":
+      if args.create:
+         if os.fork() == 0:
+            os.execvp("dot", ["dot", "-Tpdf", dot_file, "-o", pdf_file])
 
-      os.wait()
+         os.wait()
 
-   # ouvre le pdf  
-   if args.show and args.create:
-      if os.fork() == 0:
-         os.execvp("open", ["open", pdf_file])
+      # ouvre le pdf  
+      if args.show and args.create:
+         if os.fork() == 0:
+            os.execvp("open", ["open", pdf_file])
 
-   elif args.show and not args.create:
-      print("You need to create the pdf file to show it")
+      elif args.show and not args.create:
+         print("You need to create the pdf file to show it")
 
 
 
@@ -127,6 +126,12 @@ def dot_to_xml(dot_file):
    
 
 if __name__ == "__main__":
+   parser = argparse.ArgumentParser()
+   parser.add_argument("--save", help="select the file to save to",default="default", type=str)
+   parser.add_argument("--create", help="create the pdf file", action="store_true")
+   parser.add_argument("--show", help="show the pdf file", action="store_true")
+   parser.add_argument("file", help="the file to parse")
+   args = parser.parse_args()
    # if the file given is a xml file
    if args.file[-4:] == ".xml":
       xml_to_pdf(args.file)
