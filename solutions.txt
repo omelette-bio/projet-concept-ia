@@ -1,0 +1,25 @@
+solutions.py
+
+DESCRIPTION
+   Le programme solutions.py permet d'afficher sur plusieurs graphes les solutions du probleme.
+   Par defaut, le nombre maximum de coups est 10, mais il est possible de le modifier.
+
+SYNOPSIS
+   python3 solutions.py [-s STEP] [-h] FILENAME
+
+OPTIONS
+   -s, --step STEP : definit le nombre de coups maximum, par defaut 10
+   -h, --help      : affiche ce message d'aide
+
+INFORMATIONS SUPPLEMENTAIRES
+   Le nom de fichier d'entree est obligatoire, et l'extension de fichier est obligatoirement un xml
+
+   Les graphes seront stockes dans un dossier nomme fichier_entree + solutions, et les solutions numerotees de 0 a n-1
+
+UTILISATION
+   python3 solutions.py fichier.xml
+   
+   python3 solutions.py -s 5 fichier.xml
+
+AUTEUR
+   Francois Flandin

@@ -1,12 +1,18 @@
 #! /usr/bin/env python3
 
-import xml2pdf_dot2xml
-import os, argparse
+import translate
+import os, argparse, sys
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--step", help="max number of steps to reach the goal", type=int, default=10)
-parser.add_argument("file", help="the file to create the solutions")
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument("-h", "--help", action="store_true")
+parser.add_argument("-s","--step", help="max number of steps to reach the goal", type=int, default=10)
+parser.add_argument("file", help="the file to create the solutions",nargs='?')
 args = parser.parse_args()
+
+# show the file solutions.txt
+if args.help:
+   os.system("more solutions.txt")
+   sys.exit(0)
 
 # first, we create a folder to store the solutions
 
@@ -80,7 +86,7 @@ for i in range(len(s_list_mod)):
 
 # create the dot files with the xml and xml2pdf_dot2xml.py file
 
-xml2pdf_dot2xml.xml_to_pdf(args.file)
+translate.xml_to_dot(args.file)
 
 with open(args.file[:-4] + ".dot", "r") as dot:
    dot_file = dot.read()
