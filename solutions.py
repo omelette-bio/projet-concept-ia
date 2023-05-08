@@ -1,8 +1,10 @@
 #! /usr/bin/env python3
 
-import xml2pdf_dot2xml, os, argparse
+import xml2pdf_dot2xml
+import os, argparse
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--step", help="max number of steps to reach the goal", type=int, default=10)
 parser.add_argument("file", help="the file to create the solutions")
 args = parser.parse_args()
 
@@ -20,7 +22,7 @@ solutions = os.open(folder_name+"/solutions.txt", os.O_WRONLY | os.O_CREAT)
 # second step: call the jar file with the xml file and write the results in the text file
 # the command is : java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver 0 -file xml_file
 
-result = os.popen("java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver 0 -file " + args.file).read()
+result = os.popen("java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n "+str(args.step)+" -print 0 -resultsType 1 -crossingRiver 0 -file " + args.file).read()
 print("Solutions ready")
 
 os.write(solutions, bytes(result, 'utf-8'))
