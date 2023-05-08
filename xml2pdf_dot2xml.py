@@ -61,8 +61,8 @@ def xml_to_pdf(xml_file):
 
          os.wait()
 
-      # ouvre le pdf  
-      if args.show and args.create:
+      # ouvre le pdf
+      if (args.show and args.create):
          if os.fork() == 0:
             os.execvp("open", ["open", pdf_file])
 
