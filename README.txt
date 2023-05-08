@@ -22,4 +22,7 @@ python3 solutions.py fichier_entree
 
 * le nom de fichier d'entrée est obligatoire, et l'extension de fichier est obligatoirement un xml
 
+voici les options disponibles :
+* --step : définit le nombre max d'étapes pour résoudre le problème (par défaut : 10)
+
 le programme affiche les solutions possibles pour chaque graphe
