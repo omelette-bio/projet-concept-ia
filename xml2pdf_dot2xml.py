@@ -110,14 +110,14 @@ def dot_to_xml(dot_file):
    xml = os.open(xml_file, os.O_WRONLY | os.O_CREAT)
    os.write(xml, bytes("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", 'utf-8'))
    os.write(xml, bytes("<instance format=\"Talos\">\n", 'utf-8'))
-   os.write(xml, bytes("<values>\n", 'utf-8'))
-   os.write(xml, bytes("<valmatrix>\n", 'utf-8'))
+   os.write(xml, bytes("\t<values>\n", 'utf-8'))
+   os.write(xml, bytes("\t\t<valmatrix>\n", 'utf-8'))
    for i in transitions:
       # seperating the number in i with a space
       for j in transitions[i]:
-         os.write(xml, bytes("<data>" + seperate_number(i) + " " + seperate_number(j) + "</data>\n", 'utf-8'))
-   os.write(xml, bytes("</valmatrix>\n", 'utf-8'))
-   os.write(xml, bytes("</values>\n", 'utf-8'))
+         os.write(xml, bytes("\t\t\t<data>" + seperate_number(i) + " " + seperate_number(j) + "</data>\n", 'utf-8'))
+   os.write(xml, bytes("\t\t</valmatrix>\n", 'utf-8'))
+   os.write(xml, bytes("\t</values>\n", 'utf-8'))
    os.write(xml, bytes("</instance>\n", 'utf-8'))
    
    os.close(xml)
