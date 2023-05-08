@@ -3,9 +3,6 @@
 import xml.etree.ElementTree as ET
 import argparse, os, sys
 
-
-
-
 def xml_to_dot(xml_file):
    tree = ET.parse(xml_file)
    root = tree.getroot()
