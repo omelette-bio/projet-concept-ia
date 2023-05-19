@@ -48,6 +48,10 @@ for line in s_read:
    elif read_solutions:
       s_list.append(line.strip())
 
+if read_solutions == False:
+   print("No solutions found")
+   sys.exit(0)
+
 s_read.close()
 
 os.remove(folder_name+"/solutions.txt")
