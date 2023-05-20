@@ -127,6 +127,9 @@ for i in range(len(s_list_final)):
    with open(folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions"+str(i)+".dot", "w") as dot:
       dot.write(dot_temp)
 
+# we delete the dot file
+os.remove(args.file[:-4] + ".dot")
+
 print("Done")
 # now we create the pdf files with the dot files
 
