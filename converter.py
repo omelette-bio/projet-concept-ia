@@ -113,7 +113,7 @@ if __name__ == "__main__":
    args = parser.parse_args()
    
    if args.help:
-      os.system("more translate.txt")
+      os.system("more converter.txt")
       sys.exit(0)
    
    # if the file given is a xml file
