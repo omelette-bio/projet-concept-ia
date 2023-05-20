@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-import translate
+import converter
 import os, argparse, sys
 
 parser = argparse.ArgumentParser(add_help=False)
@@ -17,22 +17,41 @@ if args.help:
 # first, we create a folder to store the solutions
 
 folder_name = os.path.basename(args.file[:-4]) + "_solutions"
-os.makedirs(folder_name, exist_ok=True)
+
+try:
+   os.makedirs(folder_name, exist_ok=True)
+except OSError:
+   print(f"Creation of the directory {folder_name} failed")
+   sys.exit(0)
 
 # program that takes a xml file, check the solutions with the file talosExamples... .jar and create multiple dot files with the solutions
 
 # first step: create a text file to get the results of the jar file
 
-solutions = os.open(folder_name+"/solutions.txt", os.O_WRONLY | os.O_CREAT)
+try:
+   solutions = os.open(folder_name+"/solutions.txt", os.O_WRONLY | os.O_CREAT)
+except OSError:
+   print(f"Creation of the file {folder_name}/solutions.txt failed")
+   sys.exit(0)
 
 # second step: call the jar file with the xml file and write the results in the text file
 # the command is : java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver 0 -file xml_file
 
-result = os.popen("java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n "+str(args.step)+" -print 0 -resultsType 1 -crossingRiver 0 -file " + args.file).read()
-print("Solutions ready")
+try:
+   result = os.popen("java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n "+str(args.step)+" -print 0 -resultsType 1 -crossingRiver 0 -file " + args.file).read()
+   print("Solutions ready")
+except OSError:
+   print("Error while calling the jar file")
+   os.close(solutions)
+   sys.exit(0)
 
-os.write(solutions, bytes(result, 'utf-8'))
-os.close(solutions)
+try:
+   os.write(solutions, bytes(result, 'utf-8'))
+   os.close(solutions)
+except:
+   print("Error while writing the solutions in the file")
+   os.close(solutions)
+   sys.exit(0)
 
 # third step: create the dot files with the solutions
 # read the text file and search the line Number of solutions: x (x being the number of solutions)
@@ -88,9 +107,9 @@ for i in range(len(s_list_mod)):
    s_list_final.append(solution)
 
 
-# create the dot files with the xml and xml2pdf_dot2xml.py file
+# create the dot files with the xml and translate.py file
 
-translate.xml_to_dot(args.file)
+converter.xml_to_dot(args.file)
 
 with open(args.file[:-4] + ".dot", "r") as dot:
    dot_file = dot.read()
