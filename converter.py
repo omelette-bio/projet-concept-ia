@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import xml.etree.ElementTree as ET
-import argparse, os, sys
+import argparse, os
 
 def xml_to_dot(xml_file):
    tree = ET.parse(xml_file)
@@ -142,12 +142,11 @@ if __name__ == "__main__":
    
    if args.help:
       os.system("more converter.txt")
-      sys.exit(0)
-   
-   # if the file given is a xml file
-   if args.file[-4:] == ".xml":
-      xml_to_dot(args.file)
-   elif args.file[-4:] == ".dot":
-      dot_to_xml(args.file)
-   else:
-      print("The file given is not a xml nor a dot file")
+   else: 
+      # if the file given is a xml file
+      if args.file[-4:] == ".xml":
+         xml_to_dot(args.file)
+      elif args.file[-4:] == ".dot":
+         dot_to_xml(args.file)
+      else:
+         print("The file given is not a xml nor a dot file")
