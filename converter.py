@@ -7,8 +7,10 @@ def xml_to_dot(xml_file):
    tree = ET.parse(xml_file)
    root = tree.getroot()
    
+   # récuperation du nom du fichier
    file_name = xml_file[:-4]
    
+   # création du nom du fichier dot
    if __name__ == "__main__":
       if args.save == "default":
          dot_file = file_name + ".dot"
@@ -47,12 +49,14 @@ def xml_to_dot(xml_file):
                except:
                   print("error while writing the dot file")
                   return 1
+   # puis écriture
    try:            
       os.write(dot,bytes("}", 'utf-8'))
    except:
       print("error while writing the dot file")
       return 1
    
+   # fermeture du fichier
    os.close(dot)
    return 0
 
@@ -69,15 +73,17 @@ def seperate_number(number):
 
 
 def dot_to_xml(dot_file):
+   # ouvre le fichier dot en lecture
    try:
       dot = os.open(dot_file, os.O_RDONLY)
    except:
       print("Error while opening the dot file")
-      return
+      return 1
 
-
+   # récupération du nom du fichier
    file_name = dot_file[:-4]
    
+   # création du nom de fichier xmll
    if __name__ == "__main__":
       if args.save == "default":
          xml_file = file_name + ".xml"
@@ -86,20 +92,19 @@ def dot_to_xml(dot_file):
    else:
       xml_file = file_name + ".xml"
 
-   
-   # splitting the file into a list of words with the help of the spaces and the new lines
+   # découpage du fichier en une liste de mots
    try:
       dot_transitions = os.read(dot, 8192).decode('utf-8').split()
    except:
       print("Error while reading the dot file")
-      return
+      return 1
    
    # ouvre un nouveau fichier xml, le crée s'il n'existe pas, le vide s'il existe
    try:
       xml = os.open(xml_file, os.O_WRONLY | os.O_CREAT | os.O_TRUNC)
    except:
       print("Error while opening/creating the xml file")
-      return
+      return 1
    
    # écriture de l'en-tête du fichier xml
    try:
@@ -109,7 +114,7 @@ def dot_to_xml(dot_file):
       os.write(xml, bytes("\t\t<valmatrix>\n", 'utf-8'))
    except:
       print("Error while writing the xml file")
-      return
+      return 1
    
    # écriture des transitions dans le fichier xml
    for i in range(len(dot_transitions)):
@@ -118,7 +123,7 @@ def dot_to_xml(dot_file):
             os.write(xml, bytes("\t\t\t<data>" + seperate_number(dot_transitions[i-1]) + " " + seperate_number(dot_transitions[i+1]) + "</data>\n", 'utf-8'))
          except:
             print("Error while writing the xml file")
-            return
+            return 1
    
    # écriture de la fin du fichier xml
    try:
@@ -127,10 +132,11 @@ def dot_to_xml(dot_file):
       os.write(xml, bytes("</instance>\n", 'utf-8'))
    except:
       print("Error while writing the xml file")
-      return
+      return 1
    
+   # fermeture du fichier
    os.close(xml)
-
+   return 0
 
    
 
@@ -144,10 +150,12 @@ if __name__ == "__main__":
    if args.help:
       os.system("more converter.txt")
    else: 
-      # if the file given is a xml file
+      # si le fichier est un xml
       if args.file[-4:] == ".xml":
          xml_to_dot(args.file)
+      # si le fichier est un dot
       elif args.file[-4:] == ".dot":
          dot_to_xml(args.file)
+      # su ce n'est ni l'un ni l'autre
       else:
          print("The file given is not a xml nor a dot file")
