@@ -26,5 +26,6 @@ UTILISATION
    python3 translate.py --save dots/Seaux Seaux.xml
    python3 translate.py --save xmls/Seaux Seaux.dot
 
-AUTEUR
-   Francois Flandin
+AUTEURS
+   Flandin Francois
+   Khalfi Jawa

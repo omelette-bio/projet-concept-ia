@@ -22,4 +22,5 @@ UTILISATION
    python3 solutions.py -s 5 fichier.xml
 
 AUTEUR
-   Francois Flandin
+   Flandin Francois
+   Khalfi Jawa
