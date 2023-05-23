@@ -22,7 +22,7 @@ try:
    os.makedirs(folder_name, exist_ok=True)
 except OSError:
    print(f"Creation of the directory {folder_name} failed")
-   sys.exit(0)
+   sys.exit(1)
 
 # program that takes a xml file, check the solutions with the file talosExamples... .jar and create multiple dot files with the solutions
 
@@ -32,7 +32,7 @@ try:
    solutions = os.open(folder_name+"/solutions.txt", os.O_WRONLY | os.O_CREAT)
 except OSError:
    print(f"Creation of the file {folder_name}/solutions.txt failed")
-   sys.exit(0)
+   sys.exit(1)
 
 # second step: call the jar file with the xml file and write the results in the text file
 # the command is : java -cp talosExamples-0.4-SNAPSHOT-jar-with-dependencies.jar StateGraph -n 10 -print 0 -resultsType 1 -crossingRiver 0 -file xml_file
@@ -43,15 +43,15 @@ try:
 except OSError:
    print("Error while calling the jar file")
    os.close(solutions)
-   sys.exit(0)
+   sys.exit(1)
 
 try:
    os.write(solutions, bytes(result, 'utf-8'))
    os.close(solutions)
-except:
+except OSError:
    print("Error while writing the solutions in the file")
    os.close(solutions)
-   sys.exit(0)
+   sys.exit(1)
 
 # third step: create the dot files with the solutions
 # read the text file and search the line Number of solutions: x (x being the number of solutions)
@@ -69,7 +69,7 @@ for line in s_read:
 
 if read_solutions == False:
    print("No solutions found")
-   sys.exit(0)
+   sys.exit(1)
 
 s_read.close()
 
@@ -109,7 +109,12 @@ for i in range(len(s_list_mod)):
 
 # create the dot files with the xml and translate.py file
 
-converter.xml_to_dot(args.file)
+res = converter.xml_to_dot(args.file)
+
+if res == 1:
+   print("Error while creating the dot file")
+   sys.exit(1)
+
 
 with open(args.file[:-4] + ".dot", "r") as dot:
    dot_file = dot.read()
@@ -139,3 +144,4 @@ for i in range(len(s_list_final)):
    # then we delete the dot files
    os.remove(folder_name + "/" + os.path.basename(args.file[:-4]) + "_solutions" + str(i) + ".dot")
 print("Done")
+sys.exit(0)

@@ -24,7 +24,7 @@ def xml_to_dot(xml_file):
       dot = os.open(dot_file, os.O_WRONLY | os.O_CREAT | os.O_TRUNC)
    except:
       print("error while creating the dot file")
-      return
+      return 1
    
    # creation du style du graphe
    try:
@@ -32,7 +32,7 @@ def xml_to_dot(xml_file):
       os.write(dot, bytes("\tnode[shape=circle, style=filled, fillcolor=white, color=black, fontcolor=black, fontsize=12];\n", 'utf-8'))
    except:
       print("error while writing the dot file")
-      return
+      return 1
    
    # parcours de l'arbre xml pour récupérer les transitions
    for i in root:
@@ -46,14 +46,15 @@ def xml_to_dot(xml_file):
                   os.write(dot, bytes("\t"+debut + " -> " + fin + "\n", 'utf-8'))
                except:
                   print("error while writing the dot file")
-                  return
+                  return 1
    try:            
       os.write(dot,bytes("}", 'utf-8'))
    except:
       print("error while writing the dot file")
-      return
+      return 1
    
    os.close(dot)
+   return 0
 
 
 
